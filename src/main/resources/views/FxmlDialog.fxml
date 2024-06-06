@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--*******************************************************************************
+ * Copyright 2021 See AUTHORS file.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.longri.fx.FxmlDialog">
+   <children>
+      <Pane fx:id="fxmlContentPane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Button fx:id="btnApply" layoutX="60.0" layoutY="360.0" mnemonicParsing="false" onAction="#onApplyClicked" onKeyTyped="#onApplyTyped" prefHeight="27.0" prefWidth="60.0" text="Apply" AnchorPane.bottomAnchor="13.0" />
+      <Button fx:id="btnCancel" layoutX="60.0" layoutY="360.0" mnemonicParsing="false" onAction="#onCancelClicked" onKeyTyped="#onCancelTyped" prefHeight="27.0" prefWidth="60.0" text="Cancel" AnchorPane.bottomAnchor="13.0" />
+      <Button fx:id="btnOk" layoutX="60.0" layoutY="360.0" mnemonicParsing="false" onAction="#onOkClicked" onKeyTyped="#onOkTyped" prefHeight="27.0" prefWidth="60.0" text="OK" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.5" />
+      <ProgressBar fx:id="progress" layoutX="60.0" layoutY="373.0" prefWidth="50.0" progress="0.36" visible="false" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="10.0" />
+      <CheckBox fx:id="chkRemember" mnemonicParsing="false" text="remember" visible="false" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="10.0" />
+<!--      <ScrollPane prefHeight="200.0" prefWidth="200.0">-->
+<!--        <content>-->
+<!--          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">-->
+<!--               <children>-->
+<!--                  <TextFlow prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
+<!--               </children></AnchorPane>-->
+<!--        </content>-->
+<!--      </ScrollPane>-->
+   </children>
+</AnchorPane>

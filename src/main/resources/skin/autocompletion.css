@@ -1,0 +1,15 @@
+.auto-complete-popup{
+    -fx-text-fill: -preferred-foreground-color
+}
+
+.auto-complete-popup .list-view .list-cell {
+    -fx-padding: 5 10; /* Innenabstand für das Zelleninhalt */
+    -fx-background-color: transparent; /* Hintergrundfarbe der Zelle */
+    -fx-text-fill: -preferred-foreground-color; /* Textfarbe */
+    -fx-font-size: 14px; /* Schriftgröße */
+}
+
+.auto-complete-popup .list-view .list-cell:hover {
+    -fx-background-color: #419CFF; /* Hintergrundfarbe bei Hover */
+}
+

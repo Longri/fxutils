@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="fxRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" spacing="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <HBox spacing="30.0">
+               <children>
+                  <RadioButton fx:id="fxRadioButton_File" mnemonicParsing="false" selected="true" text="LocalFile">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="TransferType" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="fxRadioButton_FTP" mnemonicParsing="false" text="FTP" toggleGroup="$TransferType" />
+                  <RadioButton fx:id="fxRadioButton_SFTP" mnemonicParsing="false" text="SFTP" toggleGroup="$TransferType" />
+                  <RadioButton fx:id="fxRadioButton_SMB" mnemonicParsing="false" text="SMB" toggleGroup="$TransferType" />
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="fxLblAddress" text="Address" />
+                        <TextField fx:id="fxTxtFieldAddress" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="fxVBoxPort" prefWidth="100.0">
+                     <children>
+                        <Label fx:id="fxLblPort" text="Port" />
+                        <TextField fx:id="fxTxtFieldPort" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="fxLblDomain" text="Domain" />
+                        <TextField fx:id="fxTxtFieldDomain" />
+                     </children>
+                  </VBox>
+                  <VBox prefWidth="250.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="fxLblUser" text="User" />
+                        <TextField fx:id="fxTxtFieldUser" prefWidth="400.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="fxLblPasswort" text="Password" />
+                        <HBox spacing="3.0">
+                           <children>
+                              <AnchorPane HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="fxTxtFieldPasswort" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <PasswordField fx:id="fxPassField" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                              <Button fx:id="fxBtnShowPW" mnemonicParsing="false" onAction="#fxButtonPwClicked">
+                                 <graphic>
+                                    <ImageView fx:id="fxImageViewPW" fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/no_view.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <padding>
+                                    <Insets bottom="-5.0" left="5.0" right="5.0" top="-5.0" />
+                                 </padding></Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <CheckBox fx:id="fxCheckBoxRemember" mnemonicParsing="false" text="remember last connection" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="fxBtnConnect" mnemonicParsing="false" onAction="#fxOnConnectClicked" text="Connect" />
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+         </children>
+      </VBox>
+      <SplitPane dividerPositions="0.42513661202185793" layoutX="14.0" layoutY="182.0" prefHeight="319.0" prefWidth="917.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="190.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeView fx:id="fxDirectoryTree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ListView fx:id="fxListOfFiles" layoutX="104.0" layoutY="24.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+      <HBox layoutX="731.0" layoutY="429.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <Button fx:id="fxBtnCreateDir" mnemonicParsing="false" text="Create Dir" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="fxBtnCancel" mnemonicParsing="false" onAction="#fxOnCancelClicked" text="Cancel" />
+            <Button fx:id="fxBtnSelect" mnemonicParsing="false" onAction="#fxOnSelectClicked" text="Select" />
+         </children>
+      </HBox>
+      <TextField fx:id="fxTxtFieldState" editable="false" layoutX="14.0" layoutY="450.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+   </children>
+</AnchorPane>

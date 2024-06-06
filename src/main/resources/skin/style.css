@@ -1,0 +1,55 @@
+.all {
+    -fx-background-color: -preferred-background-color;
+    -fx-text-fill: -preferred-foreground-color;
+}
+
+.flip-card {
+    -fx-background-color: transparent;
+    -fx-text-fill: -preferred-foreground-color;
+    -fx-background-radius: 20%;
+
+    -fx-border-radius: 20%;
+    -fx-border-width: 5px;
+    -fx-border-color: -longri-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 0);
+}
+
+
+.flip-card-back {
+    -fx-background-color: -longri-fill-color;
+    -fx-border-color: transparent;
+}
+
+.hyperlink {
+    -fx-text-fill: black;
+}
+
+.image-button-transparent {
+    -fx-background-color: transparent;
+}
+
+.text-field-transparent {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.check-box {
+    -fx-text-fill: -preferred-foreground-color;
+}
+
+
+.pw-toggle-button{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+.pw-toggle-button:focused {
+    -fx-background-color: -fx-focus-color, -fx-inner-border, -fx-body-color, -fx-faint-focus-color, -fx-body-color;
+    -fx-background-insets: -0.2, 1, 2, -1.4, 12.6;
+    -fx-background-radius: 3, 2, 1, 4, 1;
+}

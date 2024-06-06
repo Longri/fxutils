@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="fxRoot" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.longri.fx.Start">
+    <children>
+      <AnchorPane prefHeight="266.0" prefWidth="600.0">
+         <children>
+            <TreeView fx:id="fxTreeView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <ScrollPane layoutX="200.0" prefHeight="266.0" prefWidth="401.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <content>
+                <AnchorPane prefWidth="1000.0">
+                     <children>
+                          <TextFlow fx:id="logTextFlow" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="fxAnchorPanePassword" layoutX="43.0" layoutY="311.0">
+         <children>
+            <PasswordField fx:id="fxPasswordFieldPass" text="Text" />
+            <TextField fx:id="fxTextFieldPass" layoutY="36.0" text="Text" />
+            <ToggleButton fx:id="fxBtnShowPw" layoutX="183.0" layoutY="1.0" mnemonicParsing="false" prefHeight="32.0" text="Button" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="fxBtnProgressTest" layoutX="450.0" layoutY="342.0" mnemonicParsing="false" onAction="#onFxProgressTestClicked" text="ProgressTest" />
+      <Label fx:id="fxLblTranslationTest" text="Label" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="100.0" />
+    </children>
+</AnchorPane>

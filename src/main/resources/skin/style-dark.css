@@ -1,0 +1,55 @@
+
+* {
+    -preferred-background-color: #3B3F41;
+    -preferred-foreground-color: #BBBBBB;
+    -preferred-border-color: #212021;
+    -preferred-border-color-light: #212021;
+    -longri-color: #00CCFF;
+    -longri-background-color: #3B3F41;
+    -longri-fill-color: #009EE0;
+    -active-admin-foreground-color: #00AA55;
+}
+
+.logintext{
+    -fx-fill: -preferred-foreground-color;
+    -fx-font-size: 20px;
+}
+
+
+.bordered-titled-title {
+    -fx-translate-y: -16;
+    -fx-text-fill: -longri-color;
+}
+
+.bordered-titled-border {
+    -fx-content-display: top;
+    -fx-border-insets: 20 15 15 15;
+    -fx-background-color: transparent;
+    -fx-border-color: -longri-color;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+
+}
+
+.label {
+    -fx-text-fill: -preferred-foreground-color;
+}
+
+.textflowtext {
+    -fx-text-fill: -preferred-foreground-color;
+}
+
+.bordered-titled-content {
+    -fx-padding: 26 10 10 10;
+}
+
+.search-field {
+    -fx-border-color: -preferred-border-color;
+    -fx-border-radius: 20%;
+}
+
+.search-box {
+    -fx-border-color: -preferred-border-color-light;
+    -fx-border-radius: 1%;
+}
+

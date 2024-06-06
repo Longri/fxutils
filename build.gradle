@@ -1,0 +1,124 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'maven-publish'
+    id "com.github.ben-manes.versions" version "0.51.0"
+}
+
+group 'de.longri'
+version '1.0.1'
+
+repositories {
+    mavenCentral()
+    maven { url "https://www.jitpack.io" }
+}
+
+ext {
+    junitVersion = '5.11.0-M2'
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+javafx {
+    version = '21-ea+24'
+    modules = ['javafx.controls', 'javafx.fxml', "javafx.web", "javafx.swing"]
+}
+
+dependencies {
+    implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.17'
+    implementation('com.github.Dansoftowner:jSystemThemeDetector:3.9.1') {
+        exclude group: 'org.slf4j'
+    }
+
+    implementation(group: 'commons-net', name: 'commons-net', version: "3.11.0") {
+        exclude group: 'org.slf4j'
+    }
+    implementation(group: 'com.jcraft', name: 'jsch', version: "0.1.55") {
+        exclude group: 'org.slf4j'
+    }
+    implementation(group: 'commons-cli', name: 'commons-cli', version: "1.8.0") {
+        exclude group: 'org.slf4j'
+    }
+
+    implementation('com.hierynomus:smbj:0.13.0') {
+        exclude group: 'org.slf4j'
+    }
+    implementation(group: 'commons-io', name: 'commons-io', version: '2.16.1') {
+        exclude group: 'org.slf4j'
+    }
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.1.0-alpha1'
+
+
+    implementation group: 'commons-validator', name: 'commons-validator', version: "1.9.0"
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation group: 'de.saxsys', name: 'jfx-testrunner', version: '1.2'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.2.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+if (file('gradle.properties.local').exists()) {
+    def props = new Properties()
+    file('gradle.properties.local').withInputStream { props.load(it) }
+    props.each { key, value -> project.ext.set(key, value) }
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact("build/libs/" + rootProject.name + "-" + version + ".jar") {
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'deploy'
+            url deployRepoUrl
+            allowInsecureProtocol = true
+            credentials {
+                username = deployRepoUsername
+                password = deployRepoPassword
+            }
+        }
+    }
+}
+task _FAT_JAR(dependsOn: test, type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    manifest {
+        attributes 'Main-Class': 'com.longri'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+task _CLEAN_TO_NEXUS {
+}
+task _BUILD_TO_NEXUS(dependsOn: _CLEAN_TO_NEXUS) {
+}
+task PUBLISH_TO_NEXUS(dependsOn: _BUILD_TO_NEXUS) {
+    println "PUBLISH_TO_NEXUS version $version"
+}
+_CLEAN_TO_NEXUS.dependsOn(clean)
+_BUILD_TO_NEXUS.dependsOn(_FAT_JAR)
+PUBLISH_TO_NEXUS.mustRunAfter(_FAT_JAR)
+PUBLISH_TO_NEXUS.dependsOn(publishAllPublicationsToDeployRepository)
+publishMavenPublicationToDeployRepository.dependsOn(_FAT_JAR)
+
+tasks.withType(Copy).all { duplicatesStrategy 'exclude' }
+tasks.withType(Jar).all { duplicatesStrategy 'exclude' }
