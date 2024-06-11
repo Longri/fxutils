@@ -12,6 +12,10 @@ version '1.0.1'
 repositories {
     mavenCentral()
     maven { url "https://www.jitpack.io" }
+    maven {
+        url "https://nexus.longri.de/repository/maven-public/"
+        allowInsecureProtocol = true
+    }
 }
 
 ext {
@@ -30,6 +34,8 @@ javafx {
 }
 
 dependencies {
+    implementation("de.longri:crypto:1.0")
+
     implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.17'
     implementation('com.github.Dansoftowner:jSystemThemeDetector:3.9.1') {
         exclude group: 'org.slf4j'
