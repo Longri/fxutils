@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'de.longri'
-version '1.1.0'
+version '1.1.1'
 
 repositories {
     mavenCentral()
@@ -41,7 +41,7 @@ dependencies {
         exclude group: 'org.slf4j'
     }
 
-    implementation(group: 'commons-net', name: 'commons-net', version: "3.11.0") {
+    implementation(group: 'commons-net', name: 'commons-net', version: "3.11.1") {
         exclude group: 'org.slf4j'
     }
     implementation(group: 'com.jcraft', name: 'jsch', version: "0.1.55") {
@@ -110,8 +110,8 @@ task _FAT_JAR(dependsOn: test, type: Jar) {
     manifest {
         attributes 'Main-Class': 'com.longri'
     }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    from(configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
     }
     with jar
 }
