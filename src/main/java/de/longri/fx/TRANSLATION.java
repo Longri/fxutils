@@ -230,4 +230,7 @@ public class TRANSLATION {
     }
 
 
+    public static boolean isInitial() {
+        return binding != null;
+    }
 }
