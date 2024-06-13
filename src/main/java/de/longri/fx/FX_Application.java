@@ -354,8 +354,8 @@ public abstract class FX_Application extends Application {
             PREF.put(lastScene.getName(), stage);
             lastScene.beforeHide();
         }
-//        Platform.exit();
-//        System.exit(0);
+        Platform.exit();
+        System.exit(0);
     }
 
     public static void showModalDialog(SelfLoading_Controller controller) {
