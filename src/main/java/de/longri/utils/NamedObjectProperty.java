@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
@@ -190,6 +191,19 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
     public void removeListener(InvalidationListener invalidationListener) {
         this.invalidationListenerArrayList.remove(invalidationListener);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        NamedObjectProperty<?> that = (NamedObjectProperty<?>) obj;
+        return NAME.equals(that.NAME) && Objects.equals(value, that.value);
+    }
+
 
 }
 
