@@ -17,6 +17,7 @@
 package de.longri.gdx_utils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -689,7 +690,7 @@ public class ObjectMap<K, V> implements Iterable<ObjectMap.Entry<K, V>> {
          * Returns a new array containing the remaining keys.
          */
         public Array<K> toArray() {
-            return toArray(new Array<K>( map.size));
+            return toArray(new Array<K>(map.size));
         }
 
         /**
