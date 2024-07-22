@@ -102,6 +102,30 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         }
     }
 
+    static public class NamedLocalDateTimeProperty extends NamedObjectProperty<LocalDateTime> {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss");
+
+        public NamedLocalDateTimeProperty(String name) {
+            super(name);
+            this.value = LocalDateTime.MIN;
+        }
+
+        public String toString() {
+            // convert unix time to readable
+            LocalDateTime triggerTime = this.get();
+            String valueString = formatter.format(triggerTime);
+            return "Property '" + NAME + "' value: '" + valueString + "'";
+        }
+
+        public String getAsString() {
+            return formatter.format(this.get());
+        }
+
+        public void setFromString(String value) {
+            this.set(LocalDateTime.parse(value, formatter));
+        }
+    }
+
 
     protected InvalidationListener listener = null;
     protected ObservableValue<? extends T> observable = null;
