@@ -113,18 +113,20 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         public String toString() {
             // convert unix time to readable
             LocalDateTime triggerTime = this.get();
-            String valueString = formatter.format(triggerTime);
+            String valueString = triggerTime == null ? "NULL" : formatter.format(triggerTime);
             return "Property '" + NAME + "' value: '" + valueString + "'";
         }
 
         public String getAsString() {
+            if (this.get() == null) return "NULL";
             if (this.get() == LocalDateTime.MIN) return "LocalDateTime.MIN";
             if (this.get() == LocalDateTime.MAX) return "LocalDateTime.MAX";
             return formatter.format(this.get());
         }
 
         public void setFromString(String value) {
-            if ("LocalDateTime.MIN".equals(value)) this.set(LocalDateTime.MIN);
+            if ("NULL".equals(value)) this.set(null);
+            else if ("LocalDateTime.MIN".equals(value)) this.set(LocalDateTime.MIN);
             else if ("LocalDateTime.MAX".equals(value)) this.set(LocalDateTime.MAX);
             else this.set(LocalDateTime.parse(value, formatter));
         }
