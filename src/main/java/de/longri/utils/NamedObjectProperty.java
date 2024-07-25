@@ -103,7 +103,9 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
     }
 
     static public class NamedLocalDateTimeProperty extends NamedObjectProperty<LocalDateTime> {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss");
+        DateTimeFormatter formatterGerman = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss");
+        DateTimeFormatter formatterUS = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+
 
         public NamedLocalDateTimeProperty(String name) {
             super(name);
@@ -113,7 +115,7 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         public String toString() {
             // convert unix time to readable
             LocalDateTime triggerTime = this.get();
-            String valueString = triggerTime == null ? "NULL" : formatter.format(triggerTime);
+            String valueString = triggerTime == null ? "NULL" : formatterGerman.format(triggerTime);
             return "Property '" + NAME + "' value: '" + valueString + "'";
         }
 
@@ -121,14 +123,20 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
             if (this.get() == null) return "NULL";
             if (this.get() == LocalDateTime.MIN) return "LocalDateTime.MIN";
             if (this.get() == LocalDateTime.MAX) return "LocalDateTime.MAX";
-            return formatter.format(this.get());
+            return formatterGerman.format(this.get());
         }
 
         public void setFromString(String value) {
             if ("NULL".equals(value)) this.set(null);
             else if ("LocalDateTime.MIN".equals(value)) this.set(LocalDateTime.MIN);
             else if ("LocalDateTime.MAX".equals(value)) this.set(LocalDateTime.MAX);
-            else this.set(LocalDateTime.parse(value, formatter));
+            else {
+                try {
+                    this.set(LocalDateTime.parse(value, formatterGerman));
+                } catch (Exception e) {
+                    this.set(LocalDateTime.parse(value, formatterUS));
+                }
+            }
         }
     }
 
