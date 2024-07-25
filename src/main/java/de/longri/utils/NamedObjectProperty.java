@@ -103,7 +103,7 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
     }
 
     static public class NamedLocalDateTimeProperty extends NamedObjectProperty<LocalDateTime> {
-        DateTimeFormatter formatterGerman = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss");
+        DateTimeFormatter formatterGerman = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         DateTimeFormatter formatterUS = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
 
 
