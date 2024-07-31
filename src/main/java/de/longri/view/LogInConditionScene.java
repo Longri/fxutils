@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class LogInConditionScene extends FxmlConditionScene {
 
-    private final MyLogInView myLogInView;
+    protected final MyLogInView myLogInView;
 
     public LogInConditionScene(String name) throws IOException {
         super(new MyLogInView(), name, false);
@@ -62,6 +62,11 @@ public abstract class LogInConditionScene extends FxmlConditionScene {
             public String getLogInTitle() {
                 return LogInConditionScene.this.getTitle();
             }
+
+            @Override
+            public void onShow() {
+                LogInConditionScene.this.onShow();
+            }
         };
 
     }
@@ -77,7 +82,10 @@ public abstract class LogInConditionScene extends FxmlConditionScene {
         return myLogInView.IS_SHOWING.get();
     }
 
-    public abstract boolean isConditionMet() ;
+    public void onShow() {
+    }
+
+    public abstract boolean isConditionMet();
 
     protected abstract boolean logIn(String user, String password);
 
@@ -87,7 +95,7 @@ public abstract class LogInConditionScene extends FxmlConditionScene {
 
     protected abstract Text getLogInText();
 
-    private static class MyLogInView extends LogInView {
+    protected static class MyLogInView extends LogInView {
 
         interface Listener {
             void onCancelClicked();
@@ -99,6 +107,8 @@ public abstract class LogInConditionScene extends FxmlConditionScene {
             Text getLogInText();
 
             String getLogInTitle();
+
+            void onShow();
         }
 
         private final AtomicBoolean IS_SHOWING = new AtomicBoolean(true);
@@ -140,6 +150,7 @@ public abstract class LogInConditionScene extends FxmlConditionScene {
         public void show(Object data, Stage stage) {
             IS_SHOWING.set(true);
             super.show(data, stage);
+            listener.onShow();
         }
 
         @FXML //override to close without showing CloseViewName.

@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class DBConnectionConditionScene extends FxmlConditionScene {
 
-    private final MyConnectView myConnectView;
+    protected final MyConnectView myConnectView;
 
     public DBConnectionConditionScene(String name, DBConnectionView.SettingReturnListener settingsListener) throws IOException {
         super(new MyConnectView(), name, false);
@@ -92,7 +92,7 @@ public abstract class DBConnectionConditionScene extends FxmlConditionScene {
         myConnectView.IS_SHOWING.set(true);
     }
 
-    private static class MyConnectView extends DBConnectionView {
+    protected static class MyConnectView extends DBConnectionView {
         interface Listener {
             void onCancelClicked();
 
