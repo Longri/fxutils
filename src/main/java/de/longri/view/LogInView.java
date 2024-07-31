@@ -48,10 +48,11 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class LogInView extends SelfLoading_Controller {
 
-    private final Logger log = LoggerFactory.getLogger(LogInView.class);
+    protected final Logger log = LoggerFactory.getLogger(LogInView.class);
 
     @FXML
     public StackPane fxRoot;
@@ -86,6 +87,7 @@ public abstract class LogInView extends SelfLoading_Controller {
 
 
     private boolean showRemember = false;
+    protected Stage stage;
 
     public LogInView() {
         super("/views/loginView.fxml");
@@ -114,60 +116,64 @@ public abstract class LogInView extends SelfLoading_Controller {
 
     protected abstract Text getLogInText();
 
+
+    AtomicBoolean firstVisible = new AtomicBoolean(true);
+
     @Override
     public void show(Object data, Stage stage) {
+
+        this.stage = stage;
+
         bindTranslations();
 
         //DEBUG
 //        fxImageContainer.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Platform.runLater(() -> {
-            // initialize PW view toggle function
-            new ViewablePasswordHandler(fxPwAnchorPane, fxPwTextField, fxPwField, fxPwToggle);
-        });
-
-        //if image null remove ImageView from Pane
-        Image img = getLogInImage();
-        Text logInText = getLogInText();
-        if (logInText != null) fxVBox.getChildren().add(img == null ? 0 : 1, logInText);
-        if (img == null) {
-
-            fxVBox.getChildren().remove(fxImageContainer);
-
-            log.debug("remove ImageView from LogInView");
-        } else {
-            fxImageView.setImage(img);
-            fxImageView.setFitHeight(img.getHeight());
-            fxImageView.setFitWidth(img.getWidth());
-            fxImageView.setPreserveRatio(true);
-        }
-
-        Platform.runLater(() -> {
-            fxVBox.setAlignment(Pos.CENTER);
-            fxVBox.layout();
-            fxRoot.layout();
+        if(firstVisible.getAndSet(false)){
             Platform.runLater(() -> {
-                double height = fxVBox.layoutBoundsProperty().get().getHeight() - 100;
-                double width = 0;
-                for (Node child : fxVBox.getChildren()) {
-                    width = Double.max(width, child.getLayoutBounds().getWidth());
-                }
-                if (logInText != null) height += logInText.layoutBoundsProperty().get().getHeight();
-                if (img != null) height += img.getHeight();
-//                else height += ( );
-                fxVBox.setPrefHeight(height);
-                fxRoot.setPrefHeight(height);
-
-                width += 20;
-                fxVBox.setPrefWidth(width);
-                fxRoot.setPrefWidth(width);
-
-                stage.setWidth(width);
-                stage.setHeight(height);
-
+                // initialize PW view toggle function
+                new ViewablePasswordHandler(fxPwAnchorPane, fxPwTextField, fxPwField, fxPwToggle);
             });
-        });
 
+            //if image null remove ImageView from Pane
+            Image img = getLogInImage();
+            Text logInText = getLogInText();
+            if (logInText != null) fxVBox.getChildren().add(img == null ? 0 : 1, logInText);
+            if (img == null) {
+                fxVBox.getChildren().remove(fxImageContainer);
+                log.debug("remove ImageView from LogInView");
+            } else {
+                fxImageView.setImage(img);
+                fxImageView.setFitHeight(img.getHeight());
+                fxImageView.setFitWidth(img.getWidth());
+                fxImageView.setPreserveRatio(true);
+            }
+            Platform.runLater(() -> {
+                fxVBox.setAlignment(Pos.CENTER);
+                fxVBox.layout();
+                fxRoot.layout();
+                Platform.runLater(() -> {
+                    double height = fxVBox.layoutBoundsProperty().get().getHeight() - 100;
+                    double width = 0;
+                    for (Node child : fxVBox.getChildren()) {
+                        width = Double.max(width, child.getLayoutBounds().getWidth());
+                    }
+                    if (logInText != null) height += logInText.layoutBoundsProperty().get().getHeight();
+                    if (img != null) height += img.getHeight();
+//                else height += ( );
+                    fxVBox.setPrefHeight(height);
+                    fxRoot.setPrefHeight(height);
+
+                    width += 20;
+                    fxVBox.setPrefWidth(width);
+                    fxRoot.setPrefWidth(width);
+
+                    stage.setWidth(width);
+                    stage.setHeight(height);
+
+                });
+            });
+        }
 
     }
 

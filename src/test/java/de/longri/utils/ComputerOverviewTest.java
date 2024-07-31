@@ -94,14 +94,14 @@ public class ComputerOverviewTest {
         assertEquals("Y406N7GVXJ", overview.serialNumber);
         assertEquals("32 GB", overview.memory);
         assertEquals("Apple M1 Pro", overview.processor);
-        assertEquals("macOS 14.5 (23F79)", overview.operatingSystem);
+        assertEquals("macOS 14.6 (23G80)", overview.operatingSystem);
         assertEquals("MacBookPro18,1", overview.model);
         assertEquals("Apple", overview.manufacturer);
 
         String expectedSystemInfo = "" +
                 "Hersteller/Typ     : Apple MacBookPro18,1\n" +
                 "Prozessor/Speicher : Apple M1 Pro | 32 GB\n" +
-                "Betriebssystem     : macOS 14.5 (23F79)\n" +
+                "Betriebssystem     : macOS 14.6 (23G80)\n" +
                 "Seriennummer       : Y406N7GVXJ\n" +
                 "Name               : #NAME#\n" +
                 "IP                 : #IP#";

@@ -59,11 +59,13 @@ public class FxmlScene extends Scene implements I_ShowHeide {
         this.controller = selfLoadingController;
         NAME = name;
         RESIZABLE = resizeable;
-        SceneTitel = selfLoadingController.getTitle();
     }
 
     @Override
     public void show(Object data, Stage stage) {
+        if(controller instanceof SelfLoading_Controller selfLoadingController) {
+            SceneTitel = selfLoadingController.getTitle();
+        }
         controller.show(data, stage);
     }
 
