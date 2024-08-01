@@ -147,7 +147,7 @@ public class DBConnectionView extends SelfLoading_Controller {
     }
 
     public boolean canConnect(StringBuilder messageBuilder, String host, String port, String databaseName, String user, String password) {
-        return settingReturnListener.test(messageBuilder, host, port, databaseName, user, password);
+        return settingReturnListener.test(messageBuilder, user, password, host, port, databaseName);
     }
 
     @FXML
