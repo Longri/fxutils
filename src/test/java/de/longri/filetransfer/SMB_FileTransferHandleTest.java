@@ -46,7 +46,7 @@ class SMB_FileTransferHandleTest {
 
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
 
         String expected = "content of testDatei\n" +
@@ -81,7 +81,7 @@ class SMB_FileTransferHandleTest {
 
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
 
         SMB_FileTransferHandle handle = new SMB_FileTransferHandle(credentials, "TestFolder", "writeTest.txt");
@@ -123,11 +123,11 @@ class SMB_FileTransferHandleTest {
     void DirAndParentTests() throws GeneralSecurityException, IOException {
 
 
-        if(true)return;
+        if (true) return;
 
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
 
         SMB_FileTransferHandle handle = new SMB_FileTransferHandle(credentials, "TestFolder/Folder2/Folder3");
@@ -169,20 +169,23 @@ class SMB_FileTransferHandleTest {
     }
 
     @Test
-    void writeByteArrayTest() throws GeneralSecurityException, IOException {
+    void writeByteArrayTest() throws GeneralSecurityException, IOException, InterruptedException {
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
 
         SMB_FileTransferHandle handle = new SMB_FileTransferHandle(credentials, "TestFolder/Folder2/Folder4");
 
+
+        FileTransferHandle delhandle = new Local_FileTransferHandle("./Test/TestDocker/SMB-Shared/TestFolder/Folder2/Folder4");
         if (handle.exists()) {
             assertTrue(handle.isDirectory());
-            assertTrue((new SMB_FileTransferHandle(credentials, "TestFolder/Folder2/Folder4")).delete());
+            assertTrue(delhandle.deleteDirectory());
         }
 
-        assertFalse(handle.exists());
+        assertFalse(delhandle.exists());
+
         FileTransferHandle testFile = handle.child("testFile4.txt");
         testFile.mkdirs();
 
@@ -207,7 +210,7 @@ class SMB_FileTransferHandleTest {
 
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
         SMB_FileTransferHandle smb = new SMB_FileTransferHandle(credentials, "TestFolder", "readtest1.txt");
 
@@ -221,7 +224,7 @@ class SMB_FileTransferHandleTest {
 
         //create credential
         Credentials credentials = new Credentials(
-                SERVER, "",SHARENAME, USER, DOMAIN, PASSWORT
+                SERVER, "", SHARENAME, USER, DOMAIN, PASSWORT
         );
         SMB_FileTransferHandle smb = new SMB_FileTransferHandle(credentials, "TestFolder", "readtest1.txt");
 

@@ -463,7 +463,7 @@ public class LongriLogger extends LegacyAbstractLogger {
             }
         }
 
-        String formattedMessage = MessageFormatter.basicArrayFormat(messagePattern, arguments);
+        String formattedMessage = MessageFormatter.arrayFormat(messagePattern, arguments).getMessage();
 
         // Append the message
         buf.append(formattedMessage);

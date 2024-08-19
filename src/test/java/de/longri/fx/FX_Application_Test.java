@@ -25,10 +25,7 @@ import de.longri.logging.LongriLoggerConfiguration;
 import de.longri.logging.LongriLoggerFactory;
 import de.longri.logging.LongriLoggerInit;
 import de.longri.utils.SystemType;
-import de.longri.view.DBConnectionConditionScene;
-import de.longri.view.DBConnectionView;
-import de.longri.view.LogInConditionScene;
-import de.longri.view.LogInView;
+import de.longri.view.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
@@ -273,6 +270,64 @@ public class FX_Application_Test extends FX_Application {
                 }
             };
 
+            DBClusterConnectionConditionScene clusterConnectionScene = new DBClusterConnectionConditionScene("TitleName-DBClusterConnection", new DBClusterConnectionView.SettingReturnListener() {
+
+                @Override
+                public boolean Return(StringBuilder messageBuilder, String user, String password, String[] hosts, String ports[], String databaseName) {
+                    // user hase the Connect button clicked
+                    return FIRE_CONDITION.getAndSet(true);
+                }
+
+                @Override
+                public boolean test(StringBuilder messageBuilder, String user, String password, String[] hosst, String[] ports, String databaseName) {
+                    // try DB connection and return the result
+                    // write the Message into MessageBuilder.
+                    messageBuilder.append("Can't connect to database");
+                    return false;
+                }
+            }) {
+                @Override
+                public double getDBImageWidth() {
+                    return 100;
+                }
+
+                @Override
+                public double getDBImageHeight() {
+                    return 100;
+                }
+
+                @Override
+                public boolean isConditionMet() {
+                    return FIRE_CONDITION.get();
+                }
+
+                @Override
+                public void cancelClicked() {
+                    try {
+                        FX_Application_Test.this.stop();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                @Override
+                public Image getDBImage() {
+                    SvgImage svgImage = null;
+                    try {
+                        svgImage = new SvgImage(FX_Application_Test.class.getResourceAsStream("/icons/firebirdDB.svg"), 382, 382);
+                    } catch (TranscoderException | IOException e) {
+                        //throw new RuntimeException(e);
+                    }
+                    return svgImage;
+                }
+
+                @Override
+                public String getMessageText() {
+                    return "DBConnectTestView";
+                }
+            };
+
+            CONDITION_START_STACK.add(clusterConnectionScene);
             CONDITION_START_STACK.add(mariaDbConnectionScene);
             CONDITION_START_STACK.add(loginScene);
         } catch (IOException e) {

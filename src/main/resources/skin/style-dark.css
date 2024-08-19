@@ -28,6 +28,15 @@
     -fx-border-color: -longri-color;
     -fx-border-radius: 10;
     -fx-border-width: 2;
+}
+
+.bordered-titled_area-border {
+    -fx-content-display: top;
+    -fx-border-insets: -10 15 50 15;
+    -fx-background-color: transparent;
+    -fx-border-color: -longri-color;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
 
 }
 
