@@ -329,7 +329,7 @@ public class FX_Application_Test extends FX_Application {
 
             CONDITION_START_STACK.add(clusterConnectionScene);
             CONDITION_START_STACK.add(mariaDbConnectionScene);
-            CONDITION_START_STACK.add(loginScene);
+//            CONDITION_START_STACK.add(loginScene);
         } catch (IOException e) {
             log.error("Could not initialize LogInConditionScene", e);
         }

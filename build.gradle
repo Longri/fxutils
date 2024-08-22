@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'de.longri'
-version '1.8.1'
+version '1.8.3'
 
 repositories {
     mavenCentral()
@@ -29,7 +29,7 @@ tasks.withType(JavaCompile) {
 
 
 javafx {
-    version = '23-ea+22'
+    version = '24-ea+5'
     modules = ['javafx.controls', 'javafx.fxml', "javafx.web", "javafx.swing"]
 }
 
