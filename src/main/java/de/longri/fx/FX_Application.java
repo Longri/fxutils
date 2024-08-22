@@ -194,9 +194,9 @@ public abstract class FX_Application extends Application {
 
 
         if (stage != null) {
-            Pane group = new Pane();
-            group.setPrefSize(800.0, 560.0);
-            stage.setScene(new Scene(group));
+//            Pane group = new Pane();
+//            group.setPrefSize(800.0, 560.0);
+//            stage.setScene(new Scene(group));
 
             stage.show();
 
@@ -207,6 +207,8 @@ public abstract class FX_Application extends Application {
                     conditionScene.setIsShowing();
                     new SleepCall(10, () -> {
                         setScene(conditionScene, null);
+                        stage.sizeToScene();
+
                     }, true);
 
                     //wait for conditionScene is closed
@@ -363,6 +365,20 @@ public abstract class FX_Application extends Application {
             @Override
             public void run() {
                 PREF.setStageBounds(lastScene, stage);
+                Parent root = lastScene.getRoot();
+                if (root != null) {
+                    root.requestFocus();
+                }
+                new SleepCall(100, () -> {
+                    if (root != null) {
+                        double width = root.prefWidth(-1.0);
+                        root.prefWidth(width + 1);
+                        root.prefWidth(width - 1);
+                        root.requestLayout();
+                        root.layout();
+                        stage.sizeToScene();
+                    }
+                }, true);
             }
         });
     }
