@@ -68,6 +68,11 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         public NamedStringProperty(String name) {
             super(name);
         }
+
+        public NamedStringProperty(String name, String value) {
+            super(name);
+            this.value = value;
+        }
     }
 
     static public class NamedBoolProperty extends NamedObjectProperty<Boolean> {
@@ -75,12 +80,22 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
             super(name);
             this.value = false;
         }
+
+        public NamedBoolProperty(String name, boolean value) {
+            super(name);
+            this.value = value;
+        }
     }
 
     static public class NamedIntegerProperty extends NamedObjectProperty<Integer> {
         public NamedIntegerProperty(String name) {
             super(name);
             this.value = 0;
+        }
+
+        public NamedIntegerProperty(String name, int value) {
+            super(name);
+            this.value = value;
         }
     }
 
@@ -110,6 +125,11 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         public NamedLocalDateTimeProperty(String name) {
             super(name);
             this.value = LocalDateTime.MIN;
+        }
+
+        public NamedLocalDateTimeProperty(String name, LocalDateTime value) {
+            super(name);
+            this.value = value;
         }
 
         public String toString() {
