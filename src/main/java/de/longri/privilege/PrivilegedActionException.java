@@ -18,9 +18,15 @@
  */
 package de.longri.privilege;
 
+/**
+ * The PrivilegedActionException class represents an exception that is thrown when a user is not privileged to perform a specific function.
+ */
 public class PrivilegedActionException extends RuntimeException {
 
-    public PrivilegedActionException(USER user) {
+    /**
+     * The PrivilegedActionException class represents an exception that is thrown when a user is not privileged to perform a specific function.
+     */
+    public PrivilegedActionException(User user) {
         super("User " + user.NAME + " is not privileged to perform this function");
     }
 }

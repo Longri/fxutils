@@ -58,7 +58,7 @@ class PrivilegesTest {
         PRIVILEGE priv2 = privileges.create("test2");
         PRIVILEGE priv3 = privileges.create("test3");
 
-        USER user = new USER(0, "user1");
+        User user = new User(0, "user1");
 
         GROUP adminGroup = new GROUP(0, "admins");
 
@@ -136,8 +136,8 @@ class PrivilegesTest {
     @Test
     void privilegeApplicationTest() {
 
-        USER user1 = new USER(1, "TestUser1");
-        USER user2 = new USER(2, "Testuser2", PrivilegeTestClass.WRITE);
+        User user1 = new User(1, "TestUser1");
+        User user2 = new User(2, "Testuser2", PrivilegeTestClass.WRITE);
 
         GROUP admin = new GROUP(0, "ADMIN");
         admin.addUser(user1);

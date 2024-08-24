@@ -18,15 +18,33 @@
  */
 package de.longri.privilege;
 
-import java.util.ArrayList;
-
+/**
+ * The PRIVILEGE class represents a privilege with a unique ID and name.
+ *
+ * The class provides getters for accessing the ID and name of the privilege.
+ * It also overrides the toString() method to provide a string representation of the privilege.
+ */
 public class PRIVILEGE {
 
     final int ID;
     final String NAME;
 
+    /**
+     * The PRIVILEGE class represents a privilege with a unique ID and name.
+     *
+     * The class provides getters for accessing the ID and name of the privilege.
+     * It also overrides the toString() method to provide a string representation of the privilege.
+     *
+     * @param id The unique ID of the privilege.
+     * @param name The name of the privilege.
+     */
     PRIVILEGE(int id, String name) {
         NAME = name;
         ID = id;
+    }
+
+    @Override
+    public String toString() {
+        return "PRIVILEGE: " + NAME;
     }
 }

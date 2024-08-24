@@ -18,7 +18,22 @@
  */
 package de.longri.privilege;
 
+/**
+ * The PrivilegeDoubleExistException class represents an exception that is thrown when a duplicate privilege is attempted to be created.
+ *
+ * This exception is thrown when the create() method in the Privileges class is called with a privilege name that already exists in the list of privileges.
+ * It extends the RuntimeException class, making it an unchecked exception.
+ *
+ * The exception message includes the name of the duplicate privilege.
+ */
 public class PrivilegeDoubleExistException extends RuntimeException {
+    /**
+     * Constructs a new PrivilegeDoubleExistException with the specified privilege name.
+     *
+     * This exception is thrown when a duplicate privilege is attempted to be created.
+     *
+     * @param name the name of the duplicate privilege
+     */
     public PrivilegeDoubleExistException(String name) {
         super("the PRIVILEGE " + name + " is exist");
     }
