@@ -31,7 +31,7 @@ public class PrivilegeTestClass extends Privileges {
      * A PrivilegedActionException will throw without user Privileges WRITE!
      * @param user
      */
-    public static void writeToDB(User user) {
+    public static void writeToDB(USER user) {
         INSTANCE.perform(user, WRITE, new perform() {
             @Override
             public void run() {

@@ -143,7 +143,7 @@ public class Privileges {
      * @param o The operation to be performed.
      * @throws PrivilegedActionException If the user does not have the specified privilege.
      */
-    public void perform(User user, PRIVILEGE privilege, perform o) {
+    public void perform(USER user, PRIVILEGE privilege, perform o) {
         if (!user.hasPrivilege(privilege))
             throw new PrivilegedActionException(user);
         o.run();

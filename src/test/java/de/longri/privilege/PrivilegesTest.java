@@ -58,7 +58,7 @@ class PrivilegesTest {
         PRIVILEGE priv2 = privileges.create("test2");
         PRIVILEGE priv3 = privileges.create("test3");
 
-        User user = new User(0, "user1");
+        USER user = new USER(0, "user1");
 
         GROUP adminGroup = new GROUP(0, "admins");
 
@@ -136,28 +136,28 @@ class PrivilegesTest {
     @Test
     void privilegeApplicationTest() {
 
-        User user1 = new User(1, "TestUser1");
-        User user2 = new User(2, "Testuser2", PrivilegeTestClass.WRITE);
+        USER USER1 = new USER(1, "TestUser1");
+        USER USER2 = new USER(2, "Testuser2", PrivilegeTestClass.WRITE);
 
         GROUP admin = new GROUP(0, "ADMIN");
-        admin.addUser(user1);
+        admin.addUser(USER1);
 
-        assertFalse(user2.hasPrivilege(admin));
-        assertTrue(user1.hasPrivilege(admin));
+        assertFalse(USER2.hasPrivilege(admin));
+        assertTrue(USER1.hasPrivilege(admin));
 
         /**
          * disable button if user has no privileges
          */
-        testBtn.setDisable(!user2.hasPrivilege(PrivilegeTestClass.WRITE));
+        testBtn.setDisable(!USER2.hasPrivilege(PrivilegeTestClass.WRITE));
         assertFalse(testBtn.disable);
 
-        testBtn.setDisable(!user1.hasPrivilege(PrivilegeTestClass.WRITE));
+        testBtn.setDisable(!USER1.hasPrivilege(PrivilegeTestClass.WRITE));
         assertTrue(testBtn.disable);
 
-        PrivilegeTestClass.writeToDB(user2);
+        PrivilegeTestClass.writeToDB(USER2);
 
         assertThrows(PrivilegedActionException.class, () -> {
-            PrivilegeTestClass.writeToDB(user1); // user1 has no write privileges
+            PrivilegeTestClass.writeToDB(USER1); // user1 has no write privileges
         });
     }
 }

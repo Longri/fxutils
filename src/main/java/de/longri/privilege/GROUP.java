@@ -29,7 +29,7 @@ public class GROUP {
     final int ID;
     final String Name;
     final ArrayList<PRIVILEGE> PRIVILEGE_LIST = new ArrayList<>();
-    final ArrayList<User> USER_LIST = new ArrayList<>();
+    final ArrayList<USER> USER_LIST = new ArrayList<>();
 
 
     /**
@@ -64,7 +64,7 @@ public class GROUP {
      * This class contains information about the group's ID and name.
      * It also manages the list of privileges and users associated with the group.
      */
-    public GROUP(int id, String name, User... users) {
+    public GROUP(int id, String name, USER... users) {
         ID = id;
         Name = name;
         addUser(users);
@@ -75,11 +75,11 @@ public class GROUP {
      *
      * This method adds the specified users to the group. Each user is added to the USER_LIST of the group and the group is added to the GROUP_LIST of each user.
      *
-     * @param users The users to be added to the group.
+     * @param USERS The users to be added to the group.
      * @return The group object itself.
      */
-    public GROUP addUser(User... users) {
-        for (User user : users) {
+    public GROUP addUser(USER... USERS) {
+        for (USER user : USERS) {
             USER_LIST.add(user);
             user.addGroup(this);
         }

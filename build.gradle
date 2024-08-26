@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'de.longri'
-version '1.10.0'
+version '1.10.2'
 
 repositories {
     mavenCentral()
@@ -34,7 +34,7 @@ javafx {
 }
 
 dependencies {
-    implementation("de.longri:crypto:1.4")
+    implementation("de.longri:crypto:1.5")
 
     implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.17'
     implementation('com.github.Dansoftowner:jSystemThemeDetector:3.9.1') {
@@ -64,7 +64,7 @@ dependencies {
 
     implementation group: 'commons-validator', name: 'commons-validator', version: "1.9.0"
 
-    implementation group: 'org.passay', name: 'passay', version: '1.6.4'
+    implementation group: 'org.passay', name: 'passay', version: '1.6.5'
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
