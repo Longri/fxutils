@@ -99,6 +99,18 @@ public abstract class NamedObjectProperty<T> extends ObjectProperty<T> {
         }
     }
 
+    static public class NamedDoubleProperty extends NamedObjectProperty<Double> {
+        public NamedDoubleProperty(String name) {
+            super(name);
+            this.value = 0.0;
+        }
+
+        public NamedDoubleProperty(String name, double value) {
+            super(name);
+            this.value = value;
+        }
+    }
+
     static public class NamedDateProperty extends NamedObjectProperty<Integer> {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss");
 
