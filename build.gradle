@@ -58,7 +58,7 @@ dependencies {
         exclude group: 'org.slf4j'
     }
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.16.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.1.0-alpha1'
 

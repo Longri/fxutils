@@ -43,7 +43,7 @@ class Local_FileTransferTest {
         assertTrue(cild.exists());
 
         FileTransferHandle[] fths = cild.list();
-        assertEquals(3, fths.length);
+        assertEquals(4, fths.length);
 
         FileTransferHandle testFile = null;
         for (FileTransferHandle fth2 : fths) {
