@@ -101,7 +101,7 @@ public abstract class LogInView extends SelfLoading_Controller {
         fxChkRemember.setVisible(showRemember);
     }
 
-    public void setShowRemember(boolean show){
+    public void setShowRemember(boolean show) {
         this.showRemember = show;
         fxChkRemember.setVisible(show);
     }
@@ -129,7 +129,7 @@ public abstract class LogInView extends SelfLoading_Controller {
         //DEBUG
 //        fxImageContainer.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        if(firstVisible.getAndSet(false)){
+        if (firstVisible.getAndSet(false)) {
             Platform.runLater(() -> {
                 // initialize PW view toggle function
                 new ViewablePasswordHandler(fxPwAnchorPane, fxPwTextField, fxPwField, fxPwToggle);
@@ -214,7 +214,9 @@ public abstract class LogInView extends SelfLoading_Controller {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        TRANSLATION.INITIAL(Language.ENG, Language.GER);
+        if (!TRANSLATION.isInitial())
+            TRANSLATION.INITIAL(Language.ENG, Language.GER);
+
         TRANSLATION.loadBundle("de.longri.fx.translation.main");
 
         TRANSLATION.addChangeListener(new ChangeListener<Locale>() {
@@ -228,7 +230,7 @@ public abstract class LogInView extends SelfLoading_Controller {
         //replace lang choice box
         fxComboBoxLang = new LangSelectionBox(fxComboBoxLang);
         fxComboBoxLang.setValue(Language.getUserPrefLanguage());
-        
+
         setFocusOrder();
 
         fxChkRemember.getStyleClass().add("my-checkbox");
@@ -238,7 +240,6 @@ public abstract class LogInView extends SelfLoading_Controller {
     private void setFocusOrder() {
 
         //TODO handle invisible remember me checkbox must remove from handler
-
 
 
         //set Focus order
@@ -254,7 +255,7 @@ public abstract class LogInView extends SelfLoading_Controller {
         FxFocusNode btnShowFocus = new FxFocusNode(this.fxPwToggle, this.fxChkRemember, this.fxPwField);
         focusOrderHelperPw.addFocusNode(btnShowFocus);
 
-        FxFocusNode chkRememberFocus =new FxFocusNode(this.fxChkRemember, this.fxComboBoxLang, this.fxPwToggle);
+        FxFocusNode chkRememberFocus = new FxFocusNode(this.fxChkRemember, this.fxComboBoxLang, this.fxPwToggle);
         focusOrderHelperPw.addFocusNode(chkRememberFocus);
 
         FxFocusNode langFocus = new FxFocusNode(this.fxComboBoxLang, this.fxBtnCancel, this.fxChkRemember);
@@ -266,8 +267,6 @@ public abstract class LogInView extends SelfLoading_Controller {
 
         FxFocusNode btnOKFocus = new FxFocusNode(this.fxBtnLogIn, this.fxUserTextField, this.fxBtnCancel);
         focusOrderHelperPw.addFocusNode(btnOKFocus);
-
-
 
 
         FxFocusOrderHelper focusOrderHelperTx = new FxFocusOrderHelper();
@@ -283,7 +282,7 @@ public abstract class LogInView extends SelfLoading_Controller {
         FxFocusNode btnShowFocus2 = new FxFocusNode(this.fxPwToggle, this.fxChkRemember, this.fxPwTextField);
         focusOrderHelperTx.addFocusNode(btnShowFocus2);
 
-        FxFocusNode chkRememberFocus2 =new FxFocusNode(this.fxChkRemember, this.fxComboBoxLang, this.fxPwToggle);
+        FxFocusNode chkRememberFocus2 = new FxFocusNode(this.fxChkRemember, this.fxComboBoxLang, this.fxPwToggle);
         focusOrderHelperTx.addFocusNode(chkRememberFocus2);
 
         FxFocusNode langFocus2 = new FxFocusNode(this.fxComboBoxLang, this.fxBtnCancel, this.fxChkRemember);
