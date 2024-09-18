@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'de.longri'
-version '1.12.2'
+version '1.13.0'
 
 repositories {
     mavenCentral()
@@ -34,7 +34,7 @@ javafx {
 }
 
 dependencies {
-    implementation("de.longri:crypto:1.5.2")
+    implementation("de.longri:crypto:1.5.4")
 
     implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.17'
     implementation('com.github.Dansoftowner:jSystemThemeDetector:3.9.1') {

@@ -311,10 +311,45 @@ public class UTILS {
                 e.printStackTrace();
             }
 
+        }else if (SystemType.getSystemType() == SystemType.LINUX){
+            try {
+                // Serial Number
+                String result = UTILS.execCmd("sudo dmidecode -s system-serial-number");
+                map.put("serialNumber", result.trim());
+
+                // Memory
+                result = UTILS.execCmd("grep MemTotal /proc/meminfo");
+                if (result.contains("MemTotal")) {
+                    int pos = result.indexOf(':') + 1;
+                    map.put("memory", result.substring(pos).trim());
+                }
+
+                // Processor
+                result = UTILS.execCmd("lscpu | grep 'Model name'");
+                if (result.contains("Model name")) {
+                    int pos = result.indexOf(':') + 1;
+                    map.put("processor", result.substring(pos).trim());
+                }
+
+                // Model Identifier
+                result = UTILS.execCmd("sudo dmidecode -s system-product-name");
+                map.put("model", result.trim());
+
+                // Operating System
+                result = UTILS.execCmd("uname -a");
+                map.put("operatingSystem", result.trim());
+
+                // Manufacturer
+                result = UTILS.execCmd("sudo dmidecode -s system-manufacturer");
+                map.put("manufacturer", result.trim());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Printing the information
+            map.forEach((key, value) -> System.out.println(key + ": " + value));
         }
-
-
-        return map;
+            return map;
     }
 
     public static String humanReadableByteCount(final long bytes) {
