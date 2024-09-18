@@ -21,9 +21,6 @@ package de.longri.fx;
 import de.longri.UTILS;
 import de.longri.fx.utils.SvgImage;
 import de.longri.gdx_utils.files.FileHandle;
-import de.longri.logging.LongriLoggerConfiguration;
-import de.longri.logging.LongriLoggerFactory;
-import de.longri.logging.LongriLoggerInit;
 import de.longri.utils.SystemType;
 import de.longri.view.*;
 import javafx.fxml.FXMLLoader;
@@ -43,23 +40,6 @@ public class FX_Application_Test extends FX_Application {
 
 
     private static final Logger log = LoggerFactory.getLogger(FX_Application_Test.class);
-
-    static {
-        //initial Logger
-        try {
-
-            if (SystemType.getSystemType() == SystemType.WIN) {
-                LongriLoggerConfiguration.setConfigurationFile(FX_Application_Test.class.getClassLoader().getResourceAsStream("logger/longriLoggerWin.properties"));
-            } else {
-                LongriLoggerConfiguration.setConfigurationFile(FX_Application_Test.class.getClassLoader().getResourceAsStream("logger/longriLogger.properties"));
-            }
-            LongriLoggerFactory factory = ((LongriLoggerFactory) LoggerFactory.getILoggerFactory());
-            factory.reset();
-            LongriLoggerInit.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     @Override

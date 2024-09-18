@@ -21,9 +21,6 @@ package de.longri.fx;
 
 import de.longri.UTILS;
 import de.longri.gdx_utils.files.FileHandle;
-import de.longri.logging.LongriLoggerConfiguration;
-import de.longri.logging.LongriLoggerFactory;
-import de.longri.logging.LongriLoggerInit;
 import de.longri.utils.SystemType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -37,22 +34,6 @@ import java.net.URI;
 
 public class DemoDirectoryFileChooser extends FX_Application {
 
-    static {
-        //initial Logger
-        try {
-            URI uri;
-            if (SystemType.getSystemType() == SystemType.WIN) {
-                LongriLoggerConfiguration.setConfigurationFile(DemoDirectoryFileChooser.class.getClassLoader().getResourceAsStream("logger/testLongriLoggerWin.properties"));
-            } else {
-                LongriLoggerConfiguration.setConfigurationFile(DemoDirectoryFileChooser.class.getClassLoader().getResourceAsStream("logger/testLongriLogger.properties"));
-            }
-            LongriLoggerFactory factory = ((LongriLoggerFactory) LoggerFactory.getILoggerFactory());
-            factory.reset();
-            LongriLoggerInit.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private static Logger log = LoggerFactory.getLogger(DemoDirectoryFileChooser.class);
 

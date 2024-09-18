@@ -18,43 +18,18 @@
  */
 package de.longri.fx.file_handle_tree_view;
 
-import de.longri.logging.LongriLoggerConfiguration;
-import de.longri.logging.LongriLoggerFactory;
-import de.longri.logging.LongriLoggerInit;
-import de.longri.utils.SystemType;
 import de.longri.filetransfer.Local_FileTransferHandle;
-import de.longri.fx.DemoDirectoryFileChooser;
 import javafx.application.Application;
 import javafx.scene.Scene;
-//import javafx.scene.control.FileHandleTreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.slf4j.LoggerFactory;
-
-import java.net.URI;
 
 /**
  * http://java-buddy.blogspot.com/2012/07/simple-treeview-example.html
  */
 public class JavaFXtreeTestUi extends Application {
 
-    static {
-        //initial Logger
-        try {
-            URI uri;
-            if (SystemType.getSystemType() == SystemType.WIN) {
-                LongriLoggerConfiguration.setConfigurationFile(DemoDirectoryFileChooser.class.getClassLoader().getResourceAsStream("logger/fileTreeTestLogger.properties"));
-            } else {
-                LongriLoggerConfiguration.setConfigurationFile(DemoDirectoryFileChooser.class.getClassLoader().getResourceAsStream("logger/fileTreeTestLogger.properties"));
-            }
-            LongriLoggerFactory factory = ((LongriLoggerFactory) LoggerFactory.getILoggerFactory());
-            factory.reset();
-            LongriLoggerInit.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * @param args the command line arguments

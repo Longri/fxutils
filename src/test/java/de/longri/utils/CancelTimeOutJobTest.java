@@ -18,8 +18,6 @@
  */
 package de.longri.utils;
 
-import de.longri.logging.LongriLoggerInit;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -28,11 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CancelTimeOutJobTest {
-
-    @BeforeAll
-    static void beforeAll() {
-        LongriLoggerInit.init();
-    }
 
 
     @Test
