@@ -29,7 +29,7 @@ public interface I_ShowHeide extends Initializable {
 
     void hide();
 
-    default double getMinWidth(){
+    default double getMinWidth() {
         return 0.0;
     }
 
@@ -37,15 +37,18 @@ public interface I_ShowHeide extends Initializable {
         return 0.0;
     }
 
-    default double getMaxWidth(){
+    default double getMaxWidth() {
         return Double.MAX_VALUE;
     }
 
-    default double getMaxHeight(){
+    default double getMaxHeight() {
         return Double.MAX_VALUE;
     }
 
     void fxStyleChanged(FxStyles style);
 
     String getTitle();
+
+    default void firstShow() {
+    }
 }

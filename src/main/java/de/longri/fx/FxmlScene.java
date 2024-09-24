@@ -38,6 +38,7 @@ public class FxmlScene extends Scene implements I_ShowHeide {
     public final String NAME;
     public final boolean RESIZABLE;
     public String SceneTitel = null;
+    private boolean firstShow = true;
 
     public FxmlScene(FXMLLoader fxmlLoader, String name, boolean resizeable) throws IOException {
         super(fxmlLoader.load(), -1.0D, -1.0D, false, SceneAntialiasing.BALANCED);
@@ -66,6 +67,7 @@ public class FxmlScene extends Scene implements I_ShowHeide {
         if(controller instanceof SelfLoading_Controller selfLoadingController) {
             SceneTitel = selfLoadingController.getTitle();
         }
+        if (firstShow) {controller.firstShow(); firstShow = false;}
         controller.show(data, stage);
     }
 
