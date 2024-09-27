@@ -369,16 +369,6 @@ public abstract class FX_Application extends Application {
                 if (root != null) {
                     root.requestFocus();
                 }
-                new SleepCall(100, () -> {
-                    if (root != null) {
-                        double width = root.prefWidth(-1.0);
-                        root.prefWidth(width + 1);
-                        root.prefWidth(width - 1);
-                        root.requestLayout();
-                        root.layout();
-                        stage.sizeToScene();
-                    }
-                }, true);
             }
         });
     }
