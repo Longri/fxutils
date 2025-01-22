@@ -23,6 +23,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
 import javafx.scene.control.PopupControl;
@@ -60,6 +61,15 @@ public class AutoCompleteSearchPopup extends PopupControl {
         this.SEARCH_FIELD = searchField;
         this.SEARCH_LIST = searchList;
         initial();
+
+        // initial list sort!
+        SEARCH_LIST.sort();
+        SEARCH_LIST.addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> c) {
+                SEARCH_LIST.sort();
+            }
+        });
     }
 
     void initial() {

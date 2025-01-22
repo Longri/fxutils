@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'de.longri'
-version '1.17.4'
+version '1.19.1'
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.11.1'
+    junitVersion = '5.11.4'
 }
 
 
@@ -27,6 +27,18 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+dependencyUpdates {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                // Schließt alle Abhängigkeiten aus, die mit 'org.openjfx' (JavaFX) beginnen
+                if (candidate.group == 'org.openjfx') {
+                    reject('JavaFX dependencies are excluded')
+                }
+            }
+        }
+    }
+}
 
 javafx {
     version = '24-ea+5'
@@ -36,15 +48,15 @@ javafx {
 dependencies {
     implementation("de.longri:crypto:1.6.4")
 
-    implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.17'
+    implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.18'
     implementation('com.github.Dansoftowner:jSystemThemeDetector:3.9.1')
 
     implementation(group: 'commons-net', name: 'commons-net', version: "3.11.1")
     implementation(group: 'com.jcraft', name: 'jsch', version: "0.1.55")
     implementation(group: 'commons-cli', name: 'commons-cli', version: "1.9.0")
 
-    implementation('com.hierynomus:smbj:0.13.0')
-    implementation(group: 'commons-io', name: 'commons-io', version: '2.17.0')
+    implementation('com.hierynomus:smbj:0.14.0')
+    implementation(group: 'commons-io', name: 'commons-io', version: '2.18.0')
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
 
@@ -52,7 +64,7 @@ dependencies {
 
     implementation group: 'commons-validator', name: 'commons-validator', version: "1.9.0"
 
-    implementation group: 'org.passay', name: 'passay', version: '1.6.5'
+    implementation group: 'org.passay', name: 'passay', version: '1.6.6'
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

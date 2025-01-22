@@ -239,8 +239,7 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
      *
      * @return an iterator over the elements in this list in proper sequence
      */
-    @Override
-    public ArrayIterator<T> iterator() {
+    public ArrayIterator<T> unFilteredIterator() {
         synchronized (reindexStop) {
             return new ArrayIterator<T>(this) {
 
@@ -278,7 +277,8 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
      *
      * @return an iterator over the elements in this list in proper sequence
      */
-    public ArrayIterator<T> filteredIterator() {
+    @Override
+    public ArrayIterator<T> iterator() {
         synchronized (reindexStop) {
             return new ArrayIterator<T>(this) {
 
@@ -330,6 +330,30 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
      */
     @Override
     public T[] toArray() {
+        synchronized (reindexStop) {
+            T[] arr = (T[]) ArrayReflection.newInstance(items.getClass().getComponentType(), filteredSize);
+            for (int i = 0; i < filteredSize; i++) arr[i] = get(i);
+            return arr;
+        }
+    }
+
+    /**
+     * Returns an array containing all of the elements in this list in proper
+     * sequence (from first to last element).
+     *
+     * <p>The returned array will be "safe" in that no references to it are
+     * maintained by this replace.  (In other words, this method must
+     * allocate a new array even if this list is backed by an array).
+     * The caller is thus free to modify the returned array.
+     *
+     * <p>This method acts as bridge between array-based and collection-based
+     * APIs.
+     *
+     * @return an array containing all of the elements in this list in proper
+     * sequence
+     * @see Arrays#asList(Object[])
+     */
+    public T[] toUnfilteredArray() {
         synchronized (reindexStop) {
             T[] arr = (T[]) ArrayReflection.newInstance(items.getClass().getComponentType(), size);
             for (int i = 0; i < size; i++) arr[i] = getUnfiltered(i);

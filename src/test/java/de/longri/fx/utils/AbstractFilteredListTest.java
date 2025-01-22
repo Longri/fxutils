@@ -18,6 +18,7 @@
  */
 package de.longri.fx.utils;
 
+import de.longri.gdx_utils.Array;
 import javafx.collections.ListChangeListener;
 import org.junit.jupiter.api.Test;
 
@@ -926,7 +927,7 @@ class AbstractFilteredListTest {
         assertEquals(testClass4, testList.get(2));
         assertThrows(IndexOutOfBoundsException.class, () -> testList.get(3));
 
-        assertTrue(testList.setAll(testClass2,testClass5,testClass6,testClass7));
+        assertTrue(testList.setAll(testClass2, testClass5, testClass6, testClass7));
 
         assertEquals(4, testList.size);
         assertEquals(3, testList.filteredSize);
@@ -1070,6 +1071,90 @@ class AbstractFilteredListTest {
 
     @Test
     void copy() {
+    }
+
+    @Test
+    void itterator() {
+
+        AbstractFilteredList<TestClass> testList = new AbstractFilteredList<TestClass>() {
+            @Override
+            public boolean predictTest(TestClass object) {
+                return object.ID != 2;
+            }
+
+            @Override
+            public ListChangeListener.Change<TestClass> getChange() {
+                return null;
+            }
+
+            @Override
+            public int compare(TestClass o1, TestClass o2) {
+                return 0;
+            }
+        };
+        assertNotNull(testList);
+        testList.addAll(testClass1, testClass2, testClass3, testClass4, testClass5, testClass6, testClass7, testClass8, testClass9, testClass10);
+        assertEquals(10, testList.size);
+        assertEquals(9, testList.filteredSize);
+        assertEquals(9, testList.size());
+        assertThrows(IndexOutOfBoundsException.class, () -> testList.get(9));
+        Array.ArrayIterator<TestClass> iterator = testList.iterator();
+
+        TestClass[] testClassArray = new TestClass[]{testClass1, testClass3, testClass4, testClass5, testClass6, testClass7, testClass8, testClass9, testClass10};
+
+        int idx = 0;
+        for (TestClass testClass : iterator) {
+            assertEquals(testClass, testClassArray[idx++]);
+        }
+
+        testList.remove(testClass3);
+        assertEquals(9, testList.size);
+        assertEquals(8, testList.filteredSize);
+        assertEquals(8, testList.size());
+        assertThrows(IndexOutOfBoundsException.class, () -> testList.get(8));
+        testClassArray = new TestClass[]{testClass1, testClass4, testClass5, testClass6, testClass7, testClass8, testClass9, testClass10};
+
+        iterator = testList.iterator();
+        idx = 0;
+        for (TestClass testClass : iterator) {
+            assertEquals(testClass, testClassArray[idx++]);
+        }
+
+
+    }
+
+    @Test
+    void toArry() {
+        AbstractFilteredList<TestClass> testList = new AbstractFilteredList<TestClass>() {
+            @Override
+            public boolean predictTest(TestClass object) {
+                if (object.ID == 2 || object.ID == 3 || object.ID == 7 || object.ID == 8) return false;
+                return true;
+            }
+
+            @Override
+            public ListChangeListener.Change<TestClass> getChange() {
+                return null;
+            }
+
+            @Override
+            public int compare(TestClass o1, TestClass o2) {
+                return 0;
+            }
+        };
+        assertNotNull(testList);
+        testList.addAll(testClass1, testClass2, testClass3, testClass4, testClass5, testClass6, testClass7, testClass8, testClass9, testClass10);
+        assertEquals(10, testList.size);
+        assertEquals(6, testList.filteredSize);
+        assertEquals(6, testList.size());
+        assertThrows(IndexOutOfBoundsException.class, () -> testList.get(6));
+
+        Object[] array = testList.toArray();
+        assertEquals(6, array.length);
+
+        TestClass[] testClassArray = new TestClass[]{testClass1, testClass4, testClass5, testClass6, testClass9, testClass10};
+
+        assertArrayEquals(testClassArray, array);
     }
 
 }

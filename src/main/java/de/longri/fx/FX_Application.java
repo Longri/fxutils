@@ -200,36 +200,7 @@ public abstract class FX_Application extends Application {
 
             stage.show();
 
-            new SleepCall(10, () -> {
-                // show all views from condition stack before show firstView
-                while (CONDITION_START_STACK.hasNext()) {
-                    FxmlConditionScene conditionScene = CONDITION_START_STACK.next();
-                    conditionScene.setIsShowing();
-                    new SleepCall(10, () -> {
-                        setScene(conditionScene, null);
-                        stage.sizeToScene();
-
-                    }, true);
-
-                    //wait for conditionScene is closed
-                    while (conditionScene.isShowing()) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ignore) {
-                        }
-                    }
-                }
-
-                String firstView = getFirstViewName();
-                new SleepCall(10, () -> {
-                    try {
-                        showView(firstView);
-                    } catch (Exception e) {
-                        log.error("Exception in Application start method:", e);
-                    }
-                }, true);
-
-            }, false);
+            showConditionStack(stage);
 
             stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
@@ -281,6 +252,39 @@ public abstract class FX_Application extends Application {
             }
         }).start();
 
+    }
+
+    public void showConditionStack(Stage stage) {
+        new SleepCall(10, () -> {
+            // show all views from condition stack before show firstView
+            while (CONDITION_START_STACK.hasNext()) {
+                FxmlConditionScene conditionScene = CONDITION_START_STACK.next();
+                conditionScene.setIsShowing();
+                new SleepCall(10, () -> {
+                    setScene(conditionScene, null);
+                    stage.sizeToScene();
+
+                }, true);
+
+                //wait for conditionScene is closed
+                while (conditionScene.isShowing()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ignore) {
+                    }
+                }
+            }
+
+            String firstView = getFirstViewName();
+            new SleepCall(10, () -> {
+                try {
+                    showView(firstView);
+                } catch (Exception e) {
+                    log.error("Exception in Application start method:", e);
+                }
+            }, true);
+
+        }, false);
     }
 
 
