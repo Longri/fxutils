@@ -43,7 +43,7 @@ public class Task {
          * @return A negative integer, zero, or a positive integer if the first priority
          * is less than, equal to, or greater than the second priority.
          */
-        public static int comparePriorities( Priority p1, Priority p2) {
+        public static int comparePriorities(Priority p1, Priority p2) {
             return Integer.compare(p1.getValue(), p2.getValue());
         }
     }
@@ -88,12 +88,9 @@ public class Task {
      */
     private LocalDateTime dueDate;
 
-    /**
-     * Duration (time interval) between two moments (optional).
-     * This property can be used to store the duration directly,
-     * if it is needed in a persistent form instead of being calculated on-demand.
-     */
-    private Duration duration;
+    private LocalDateTime startDateTime;
+
+
     /**
      * Timestamp when the task was created.
      */
@@ -383,19 +380,24 @@ public class Task {
      * @return The stored `Duration` instance or null if none has been set.
      */
     public Duration getDuration() {
-        return duration;
+        return Duration.between(startDateTime, dueDate);
     }
 
     /**
      * Sets the duration of the task.
-     *
-     * This can represent the time span between creation and the deadline
-     * or some other specified duration (e.g., estimated time required to complete the task).
+     * <p>
+     * This can represent the time span between start time and the deadline
      *
      * @param duration A `Duration` instance representing the time span.
      */
     public void setDuration(Duration duration) {
-        this.duration = duration;
+        if (startDateTime != null) // will move the dueDate
+            this.dueDate = startDateTime.plus(duration);
+        else if (this.dueDate == null) {
+            throw new IllegalArgumentException("Due date or start date must not be null");
+        } else {
+            this.startDateTime = this.dueDate.minus(duration);
+        }
     }
 
     /**
@@ -404,10 +406,7 @@ public class Task {
      * @return The calculated `LocalDateTime`, or null if `dueDate` or `duration` is not set.
      */
     public LocalDateTime getStartDateTime() {
-        if (dueDate != null && duration != null) {
-            return dueDate.plus(duration); // Adds the duration to the due date
-        }
-        return null; // Return null if one of the values is not set
+        return startDateTime;
     }
 
     /**
@@ -416,13 +415,11 @@ public class Task {
      * @param start The starting date and time.
      */
     public void setStart(LocalDateTime start) {
-
         if (start != null && dueDate != null) {
-            if(this.dueDate.isBefore(start)) throw new IllegalArgumentException("Start date must not be after due date");
-            this.duration = Duration.between(start, dueDate); // Calculates the duration between start and dueDate
-        } else {
-            throw new IllegalArgumentException("Start date and due date must not be null");
+            if (this.dueDate.isBefore(start))
+                throw new IllegalArgumentException("Start date must not be after due date");
         }
+        this.startDateTime = start;
     }
 
 }

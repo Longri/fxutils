@@ -242,25 +242,37 @@ class TaskTest {
         LocalDateTime dueDate = LocalDateTime.of(2023, 12, 25, 12, 0); // Set due date
         Duration duration = Duration.ofHours(5); // Set duration
 
+        //if due date and start date are NULL, must throw illegal Argument Exception
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            task.setDuration(duration);
+        });
+        assertEquals("Due date or start date must not be null", exception.getMessage()); // Validate exception message
+
         task.setDueDate(dueDate);               // Assign dueDate to the task
         task.setDuration(duration);             // Assign duration to the task
 
         LocalDateTime result = task.getStartDateTime();   // Calculate start date
         assertNotNull(result);                            // Result should not be null
-        assertEquals(dueDate.plus(duration), result);     // Assert result matches dueDate + duration
+        assertEquals(dueDate.minus(duration), result);     // Assert result matches dueDate + duration
     }
 
-    /**
-     * Test getStartDateTime() when dueDate is not set.
-     * Verifies that the method returns null when dueDate is missing.
-     */
     @Test
-    void testGetStartDateTime_NoDueDate() {
-        Duration duration = Duration.ofHours(5); // Assign only the duration
-        task.setDuration(duration);
+    void testGetStartDateTime_ValidDueDateAndDuration2() {
+        LocalDateTime startDate = LocalDateTime.of(2023, 12, 25, 12, 0); // Set due date
+        Duration duration = Duration.ofHours(5); // Set duration
 
-        LocalDateTime result = task.getStartDateTime(); // Attempt to calculate start date without dueDate
-        assertNull(result);                             // Result should be null
+        //if due date and start date are NULL, must throw illegal Argument Exception
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            task.setDuration(duration);
+        });
+        assertEquals("Due date or start date must not be null", exception.getMessage()); // Validate exception message
+
+        task.setStart(startDate);               // Assign dueDate to the task
+        task.setDuration(duration);             // Assign duration to the task
+
+        LocalDateTime result = task.getDueDate();   // Calculate start date
+        assertNotNull(result);                            // Result should not be null
+        assertEquals(startDate.plus(duration), result);     // Assert result matches dueDate + duration
     }
 
     /**
@@ -302,49 +314,7 @@ class TaskTest {
         assertNotNull(task.getDuration());                       // Duration should not be null
         assertEquals(Duration.ofHours(28), task.getDuration());  // Duration should be 28 hours
     }
-
-    /**
-     * Test setStart() when start date is null.
-     * Ensures that an exception is thrown when the start date is not provided.
-     */
-    @Test
-    void testSetStart_NullStart() {
-        LocalDateTime dueDate = LocalDateTime.of(2023, 12, 25, 12, 0); // Set only dueDate
-
-        task.setDueDate(dueDate); // Assign dueDate to the task
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            task.setStart(null); // Attempt with null start date
-        });
-        assertEquals("Start date and due date must not be null", exception.getMessage()); // Validate exception message
-    }
-
-    /**
-     * Test setStart() when dueDate is missing.
-     * Ensures that an exception is thrown when the dueDate property is not set.
-     */
-    @Test
-    void testSetStart_NullDueDate() {
-        LocalDateTime start = LocalDateTime.of(2023, 12, 24, 8, 0); // Define start date
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            task.setStart(start); // Attempt to calculate duration with no dueDate
-        });
-        assertEquals("Start date and due date must not be null", exception.getMessage()); // Validate exception message
-    }
-
-    /**
-     * Test setStart() when both start and dueDate are null.
-     * Ensures that an exception is thrown when no values are provided.
-     */
-    @Test
-    void testSetStart_NullStartAndDueDate() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            task.setStart(null); // Attempt with null values
-        });
-        assertEquals("Start date and due date must not be null", exception.getMessage()); // Validate exception message
-    }
-
+    
     /**
      * Test setStart() when start date is after dueDate.
      * Ensures that an exception is thrown when start > dueDate, as this results in a negative Duration.
