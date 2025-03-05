@@ -3,11 +3,11 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'maven-publish'
-    id "com.github.ben-manes.versions" version "0.51.0"
+    id "com.github.ben-manes.versions" version "0.52.0"
 }
 
 group 'de.longri'
-version '1.19.1'
+version '1.20.0'
 
 repositories {
     mavenCentral()
@@ -34,6 +34,9 @@ dependencyUpdates {
                 // Schließt alle Abhängigkeiten aus, die mit 'org.openjfx' (JavaFX) beginnen
                 if (candidate.group == 'org.openjfx') {
                     reject('JavaFX dependencies are excluded')
+                }
+                if (candidate.group == 'org.junit.jupiter') {
+                    reject('JUnit dependencies are excluded')
                 }
             }
         }
@@ -66,11 +69,14 @@ dependencies {
 
     implementation group: 'org.passay', name: 'passay', version: '1.6.6'
 
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.2.1'
 
+
+    // JUnit 5 Test-Abhängigkeiten
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testImplementation group: 'de.saxsys', name: 'jfx-testrunner', version: '1.2'
-    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.2.1'
+
 }
 
 test {

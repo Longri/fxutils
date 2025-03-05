@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 public class ObservableArray<T> extends Array<T> implements ObservableList<T> {
 
     protected ObservableArrayChange<T> CHANGE;
-    Array<ListChangeListener<? super T>> listeners = new Array<>();
+    protected Array<ListChangeListener<? super T>> listeners = new Array<>();
 
 
     public ObservableArray() {

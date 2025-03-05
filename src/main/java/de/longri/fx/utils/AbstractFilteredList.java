@@ -21,6 +21,7 @@ package de.longri.fx.utils;
 import de.longri.gdx_utils.Array;
 import de.longri.gdx_utils.ArrayReflection;
 import de.longri.gdx_utils.ObservableArray;
+import de.longri.gdx_utils.ObservableArrayChange;
 import javafx.collections.ListChangeListener;
 
 import java.util.*;
@@ -525,6 +526,22 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
         this.FILTER = filter;
         reindex();
         FILTER.addChangeListener(changeListener);
+    }
+
+    @Override
+    public void fireChange() {
+
+        if (reindexStop.get()) return; // no Change event if reindex stop
+
+        for (ListChangeListener<? super T> listener : listeners) {
+            final ObservableArrayChange<T> finaleChange = new ObservableArrayChange<>(CHANGE);
+            try {
+                listener.onChanged(finaleChange);
+            } catch (Exception ignore) {
+                // and call other listener
+            }
+        }
+        CHANGE = null;
     }
 
 }

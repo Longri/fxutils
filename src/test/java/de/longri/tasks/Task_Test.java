@@ -314,7 +314,7 @@ class TaskTest {
         assertNotNull(task.getDuration());                       // Duration should not be null
         assertEquals(Duration.ofHours(28), task.getDuration());  // Duration should be 28 hours
     }
-    
+
     /**
      * Test setStart() when start date is after dueDate.
      * Ensures that an exception is thrown when start > dueDate, as this results in a negative Duration.
