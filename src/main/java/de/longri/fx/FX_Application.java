@@ -369,6 +369,17 @@ public abstract class FX_Application extends Application {
             @Override
             public void run() {
                 PREF.setStageBounds(lastScene, stage);
+
+                // limit to max/min size
+                double minWidth = lastScene.getMinWidth();
+                double minHeight = lastScene.getMinHeight();
+                double maxWidth = lastScene.getMaxWidth();
+                double maxHeight = lastScene.getMaxHeight();
+                if (minWidth > 0.0 && minWidth > stage.getWidth()) stage.setWidth(minWidth);
+                if (minHeight > 0.0 && minHeight > stage.getHeight()) stage.setHeight(minHeight);
+                if (maxWidth < Double.MAX_VALUE && maxWidth < stage.getWidth()) stage.setWidth(maxWidth);
+                if (maxHeight < Double.MAX_VALUE && maxHeight < stage.getHeight()) stage.setHeight(maxHeight);
+
                 Parent root = lastScene.getRoot();
                 if (root != null) {
                     root.requestFocus();
