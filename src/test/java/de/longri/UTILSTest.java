@@ -63,7 +63,6 @@ class UTILSTest {
     @Test
     void getSysInfo() throws Exception {
         HashMap<String, String> map = UTILS.getSystemInfo();
-
         assertNotNull(map);
     }
 }

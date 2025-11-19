@@ -20,13 +20,11 @@ package de.longri.fx;
 
 import de.longri.utils.SystemType;
 import com.sun.javafx.application.PlatformImpl;
-import de.saxsys.javafx.test.JfxRunner;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
