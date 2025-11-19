@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,5 +58,12 @@ class UTILSTest {
 
         assertEquals(expected, base64);
 
+    }
+
+    @Test
+    void getSysInfo() throws Exception {
+        HashMap<String, String> map = UTILS.getSystemInfo();
+
+        assertNotNull(map);
     }
 }

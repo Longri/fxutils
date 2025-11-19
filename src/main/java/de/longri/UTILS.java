@@ -62,7 +62,7 @@ public class UTILS {
 
 
     public static Files files;
-//    public static ApplicationLogger appLogger;
+    //    public static ApplicationLogger appLogger;
     private static AtomicBoolean filesInitial = new AtomicBoolean(false);
 
     public static void initialFilesWithDesktop() {
@@ -253,6 +253,68 @@ public class UTILS {
             }
         } else if (SystemType.getSystemType() == SystemType.WIN) {
 
+//            change
+//
+//
+//            Get-CimInstance Win32_ComputerSystem | Select-Object -ExpandProperty Manufacturer
+//            Get-CimInstance Win32_ComputerSystem | Select-Object -ExpandProperty Model
+//            Get-CimInstance Win32_BIOS | Select-Object -ExpandProperty SerialNumber
+//            Get-CimInstance Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory
+//            Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name
+//            Get-CimInstance Win32_OperatingSystem | Select-Object -ExpandProperty Caption
+
+
+            String manufacturer = "";
+            String model;
+            String serialNumber;
+            String cpuName;
+            String osCaption;
+            String totalMemoryBytesStr;
+
+            try {
+                manufacturer = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_ComputerSystem).Manufacturer\""
+                ).trim();
+
+                model = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_ComputerSystem).Model\""
+                ).trim();
+
+                serialNumber = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_BIOS).SerialNumber\""
+                ).trim();
+
+                cpuName = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_Processor).Name\""
+                ).trim();
+
+                osCaption = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_OperatingSystem).Caption\""
+                ).trim();
+
+                totalMemoryBytesStr = execCmd(
+                        "powershell -Command \"(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory\""
+                ).trim();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            System.out.println(manufacturer);
+            System.out.println(model);
+            System.out.println(serialNumber);
+            System.out.println(cpuName);
+            System.out.println(osCaption);
+
+
+//
+//            String
+//
+//            String
+//
+//            String
+
+
             /** WMIC COMPUTERSYSTEM get Manufacturer,Model,Caption,TotalPhysicalMemory
              * Caption   Manufacturer  Model        TotalPhysicalMemory
              * BM-NB162  Dell Inc.     XPS 13 9370  8388562944
@@ -272,46 +334,20 @@ public class UTILS {
              * Name
              * Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
              */
-            try {
-                String result = UTILS.execCmd("WMIC COMPUTERSYSTEM get Manufacturer");
-                String[] lines = result.split("\r\n");
-                map.put("manufacturer", lines[1].trim());
+            String result;
+            String[] lines;
+            map.put("manufacturer", manufacturer);
+            map.put("model", model);
+            map.put("serialNumber", serialNumber);
+            long totalMemoryBytes = Long.parseLong(totalMemoryBytesStr);
+            System.out.println("Mem:" + humanReadableByteCount(totalMemoryBytes));
+            map.put("memory", humanReadableByteCount(totalMemoryBytes));
 
-                result = UTILS.execCmd("WMIC COMPUTERSYSTEM get Model");
-                lines = result.split("\r\n");
-                map.put("model", lines[1].trim());
+            map.put("processor", cpuName);
+            map.put("operatingSystem", osCaption);
+            map.put("model", "-");
 
-                result = UTILS.execCmd("WMIC BIOS get SerialNumber");
-                lines = result.split("\r\n");
-                map.put("serialNumber", lines[1].trim());
-
-                result = UTILS.execCmd("wmic memorychip get capacity");
-                lines = result.split("\r\n");
-                long bytes = Long.parseLong(lines[1].trim());
-                if (lines.length > 2 && !lines[2].trim().isEmpty()) bytes += Long.parseLong(lines[2].trim());
-                if (lines.length > 3 && !lines[3].trim().isEmpty()) bytes += Long.parseLong(lines[3].trim());
-                if (lines.length > 4 && !lines[4].trim().isEmpty()) bytes += Long.parseLong(lines[4].trim());
-                if (lines.length > 5 && !lines[5].trim().isEmpty()) bytes += Long.parseLong(lines[5].trim());
-                map.put("memory", humanReadableByteCount(bytes));
-
-                result = UTILS.execCmd("WMIC CPU get Name");
-                lines = result.split("\r\n");
-                map.put("processor", lines[1].trim());
-
-                result = UTILS.execCmd("WMIC OS get Caption");
-                lines = result.split("\r\n");
-                map.put("operatingSystem", lines[1].trim());
-
-                result = UTILS.execCmd("WMIC COMPUTERSYSTEM get Model");
-                lines = result.split("\r\n");
-                map.put("model", lines[1].trim());
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }else if (SystemType.getSystemType() == SystemType.LINUX){
+        } else if (SystemType.getSystemType() == SystemType.LINUX) {
             try {
                 // Serial Number
                 String result = UTILS.execCmd("sudo dmidecode -s system-serial-number");
@@ -349,7 +385,7 @@ public class UTILS {
             // Printing the information
             map.forEach((key, value) -> System.out.println(key + ": " + value));
         }
-            return map;
+        return map;
     }
 
     public static String humanReadableByteCount(final long bytes) {

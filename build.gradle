@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
+    // id 'org.openjfx.javafxplugin' version '0.1.0' // Plugin deaktiviert wegen Problemen auf Win-Arm
     id 'maven-publish'
     id "com.github.ben-manes.versions" version "0.52.0"
 }
@@ -11,7 +11,7 @@ version '1.21.0'
 
 repositories {
     mavenCentral()
-    maven { url "https://www.jitpack.io" }
+    maven { url 'https://jitpack.io' }
     maven {
         url "https://nexus.longri.de/repository/maven-public/"
         allowInsecureProtocol = true
@@ -20,14 +20,34 @@ repositories {
 
 ext {
     junitVersion = '5.11.4'
+    javafxVersion = '21.0.5' // Zentrale JavaFX Version
 }
 
+// --- Plattform Erkennung für JavaFX ---
+def currentOs = System.getProperty("os.name").toLowerCase()
+def currentArch = System.getProperty("os.arch").toLowerCase()
+def jfxPlatform
+
+if (currentOs.contains("win")) {
+    // Auf Windows (auch Arm) nutzen wir die Standard x64 Libs, da Arm via Emulation läuft
+    // und keine nativen Win-Arm Artefakte auf Maven Central existieren.
+    jfxPlatform = "win"
+} else if (currentOs.contains("mac")) {
+    // Auf Mac gibt es native Arm64 Libs (Apple Silicon)
+    jfxPlatform = currentArch.contains("aarch64") ? "mac-aarch64" : "mac"
+} else {
+    jfxPlatform = "linux"
+}
+
+println "JavaFX Platform detected: ${jfxPlatform} (OS: ${currentOs}, Arch: ${currentArch})"
+// --------------------------------------
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-dependencyUpdates {
+// Konfiguration für das ben-manes.versions Plugin
+tasks.named("dependencyUpdates").configure {
     resolutionStrategy {
         componentSelection {
             all {
@@ -43,12 +63,16 @@ dependencyUpdates {
     }
 }
 
-javafx {
-    version = '24-ea+5'
-    modules = ['javafx.controls', 'javafx.fxml', "javafx.web", "javafx.swing"]
-}
-
 dependencies {
+    // --- JavaFX Manuelle Dependencies ---
+    implementation("org.openjfx:javafx-base:${javafxVersion}:${jfxPlatform}")
+    implementation("org.openjfx:javafx-graphics:${javafxVersion}:${jfxPlatform}")
+    implementation("org.openjfx:javafx-controls:${javafxVersion}:${jfxPlatform}")
+    implementation("org.openjfx:javafx-fxml:${javafxVersion}:${jfxPlatform}")
+    implementation("org.openjfx:javafx-web:${javafxVersion}:${jfxPlatform}")
+    implementation("org.openjfx:javafx-swing:${javafxVersion}:${jfxPlatform}")
+    // ------------------------------------
+
     implementation("de.longri:crypto:1.6.4")
 
     implementation group: 'org.apache.xmlgraphics', name: 'batik-transcoder', version: '1.19'
@@ -102,32 +126,38 @@ publishing {
     repositories {
         maven {
             name 'deploy'
-            url deployRepoUrl
+            // Prüfen ob Variablen definiert sind, um Fehler zu vermeiden falls local.properties fehlt
+            url project.hasProperty('deployRepoUrl') ? project.deployRepoUrl : ""
             allowInsecureProtocol = true
             credentials {
-                username = deployRepoUsername
-                password = deployRepoPassword
+                username = project.hasProperty('deployRepoUsername') ? project.deployRepoUsername : ""
+                password = project.hasProperty('deployRepoPassword') ? project.deployRepoPassword : ""
             }
         }
     }
 }
+
 task _FAT_JAR(dependsOn: test, type: Jar) {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     manifest {
-        attributes 'Main-Class': 'com.longri'
+        attributes 'Main-Class': 'com.longri.Main' // Achtung: Prüfen Sie, ob das Package stimmt. Oben war es mal leer oder de.longri.
     }
     from(configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
     }
     with jar
 }
+
 task _CLEAN_TO_NEXUS {
 }
+
 task _BUILD_TO_NEXUS(dependsOn: _CLEAN_TO_NEXUS) {
 }
+
 task PUBLISH_TO_NEXUS(dependsOn: _BUILD_TO_NEXUS) {
     println "PUBLISH_TO_NEXUS version $version"
 }
+
 _CLEAN_TO_NEXUS.dependsOn(clean)
 _BUILD_TO_NEXUS.dependsOn(_FAT_JAR)
 PUBLISH_TO_NEXUS.mustRunAfter(_FAT_JAR)
