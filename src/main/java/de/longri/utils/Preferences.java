@@ -115,32 +115,17 @@ public abstract class Preferences {
             return;
         }
 
-        Rectangle2D completeBounds = new Rectangle2D(0, 0, 0, 0);
+//        Rectangle2D completeBounds = new Rectangle2D(0, 0, 0, 0);
         ObservableList<Screen> screens = Screen.getScreens();
 
-        for (Screen screen : screens) {
 
-            Rectangle2D screenBounds = screen.getBounds();
-            double minx = Math.min(completeBounds.getMinX(), screenBounds.getMinX());
-            double miny = Math.min(completeBounds.getMinY(), screenBounds.getMinY());
-            double maxx = Math.max(completeBounds.getMaxX(), screenBounds.getMaxX());
-            double maxy = Math.max(completeBounds.getMaxY(), screenBounds.getMaxY());
-            completeBounds = new Rectangle2D(minx, miny, maxx - minx, maxy - miny);
-        }
+        Rectangle2D fitRec = FitOnScreen.fitOnScreen(isResizeable, x, y, w, h, screens);
 
-        if (!completeBounds.contains(x, y, w, h)) { //todo if outside
-            log.debug("Stage outside of visible screen, so Center Stage on Screen");
-            stage.setWidth(w);
-            stage.setHeight(h);
-            stage.centerOnScreen();
-            return;
-        }
-
-        log.debug("set stage bounds x:{} | y:{} | width:{} | height:{}", x, y, w, h);
-        stage.setX(x);
-        stage.setY(y);
-        stage.setWidth(w);
-        stage.setHeight(h);
+        log.debug("set stage bounds x:{} | y:{} | width:{} | height:{}", fitRec.getMinX(), fitRec.getMinY(), fitRec.getWidth(), fitRec.getHeight());
+        stage.setX(fitRec.getMinX());
+        stage.setY(fitRec.getMinY());
+        stage.setWidth(fitRec.getWidth());
+        stage.setHeight(fitRec.getHeight());
     }
 
     public Dimension getDimension(String key) {
