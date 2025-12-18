@@ -482,34 +482,6 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
         }
     }
 
-    /**
-     * Replaces the element at the specified position in this list with the
-     * specified element (optional operation).
-     *
-     * @param index   index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
-     * @throws UnsupportedOperationException if the {@code set} operation
-     *                                       is not supported by this list
-     * @throws ClassCastException            if the class of the specified element
-     *                                       prevents it from being added to this list
-     * @throws NullPointerException          if the specified element is null and
-     *                                       this list does not permit null elements
-     * @throws IllegalArgumentException      if some property of the specified
-     *                                       element prevents it from being added to this list
-     * @throws IndexOutOfBoundsException     if the index is out of range
-     *                                       ({@code index < 0 || index >= size()})
-     */
-    @Override
-    public T set(int index, T element) {
-        synchronized (reindexStop) {
-
-            //get filtered Index
-            T ret = super.set(filtered[index], element);
-            if (!reindexStop.get()) reindex();
-            return ret;
-        }
-    }
 
     FilterChangeListener changeListener = new FilterChangeListener() {
         @Override
@@ -544,4 +516,40 @@ public abstract class AbstractFilteredList<T> extends ObservableArray<T> {
         CHANGE = null;
     }
 
+    /**
+     * Replaces the element at the specified position in this list with the
+     * specified element (optional operation).
+     *
+     * @param index   index of the element to replace
+     * @param element element to be stored at the specified position
+     * @return the element previously at the specified position
+     * @throws UnsupportedOperationException if the {@code set} operation
+     *                                       is not supported by this list
+     * @throws ClassCastException            if the class of the specified element
+     *                                       prevents it from being added to this list
+     * @throws NullPointerException          if the specified element is null and
+     *                                       this list does not permit null elements
+     * @throws IllegalArgumentException      if some property of the specified
+     *                                       element prevents it from being added to this list
+     * @throws IndexOutOfBoundsException     if the index is out of range
+     *                                       ({@code index < 0 || index >= size()})
+     */
+    @Override
+    public T set(int index, T element) {
+        synchronized (reindexStop) {
+            //get filtered Index
+            T ret = super.set(filtered[index], element);
+            if (!reindexStop.get()) reindex();
+            return ret;
+        }
+    }
+
+
+    protected void setFiltered(int index, T element) {
+        synchronized (reindexStop) {
+            //get filtered Index
+            T ret = super.set(index, element);
+            if (!reindexStop.get()) reindex();
+        }
+    }
 }

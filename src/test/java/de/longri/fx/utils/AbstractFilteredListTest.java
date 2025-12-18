@@ -20,8 +20,10 @@ package de.longri.fx.utils;
 
 import de.longri.gdx_utils.Array;
 import javafx.collections.ListChangeListener;
+import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -1156,5 +1158,102 @@ class AbstractFilteredListTest {
 
         assertArrayEquals(testClassArray, array);
     }
+
+
+    @Test
+    void replaceFilterred() {
+
+        // fill RaEntryList with items
+        // set filter
+        // replace item on a filtered list
+
+        RaEntryList testList = new RaEntryList();
+
+
+        RaEntry entry1 = new RaEntry(1, "remarks");
+        RaEntry entry2 = new RaEntry(2, "remarks");
+        RaEntry entry3 = new RaEntry(3, "remarks");
+        RaEntry entry4 = new RaEntry(4, "replace this remark");
+        RaEntry entry5 = new RaEntry(5, "remarks");
+        RaEntry entry6 = new RaEntry(6, "remarks");
+
+        RaEntry replaceEntry = new RaEntry(4, "replaced remark");
+
+        testList.add(entry1);
+        testList.add(entry2);
+        testList.add(entry3);
+        testList.add(entry4);
+        testList.add(entry5);
+        testList.add(entry6);
+
+        assertEquals(6, testList.size());
+
+
+        RaEntry getEntry = testList.getEntryOfId(4);
+        assertEquals(entry4, getEntry);
+        assertSame(entry4, getEntry);
+
+
+        testList.setFilter(new Filter<RaEntry>() {
+            public boolean predictTest(RaEntry test) {
+                if (test.id == 4) return true;
+                return false;
+            }
+        });
+
+        assertEquals(1, testList.size());
+
+        getEntry = testList.getEntryOfId(4);
+        assertEquals(entry4, getEntry);
+        assertSame(entry4, getEntry);
+
+
+        testList.replace(getEntry, replaceEntry);
+        getEntry = testList.getEntryOfId(4);
+        assertEquals(replaceEntry, getEntry);
+        assertSame(replaceEntry, getEntry);
+
+
+    }
+
+    private class RaEntry {
+        int id;
+        String remark;
+
+        public RaEntry(int id, String remark) {
+            this.id = id;
+            this.remark = remark;
+        }
+    }
+
+
+    private class RaEntryList extends AbstractFilteredList<RaEntry> {
+
+        @Override
+        public ListChangeListener.Change<RaEntry> getChange() {
+            return null;
+        }
+
+        @Override
+        public int compare(RaEntry o1, RaEntry o2) {
+            return 0;
+        }
+
+        RaEntry getEntryOfId(int id) {
+                for (RaEntry raEntry : this.iterator()) {
+                    if (raEntry.id == id) return raEntry;
+                }
+                return null;
+        }
+
+        public void replace(RaEntry rmEntry, RaEntry editEntry) {
+            int index = indexOf(rmEntry);
+            if (index < 0) return;
+           super.setFiltered(index,editEntry);
+
+        }
+    }
+
+
 
 }
